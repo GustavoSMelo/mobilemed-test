@@ -41,6 +41,55 @@ cp .env.example .env
 # edite DATABASE_URL e TEST_DATABASE_URL com usuário/senha reais
 ```
 
+## Migrations: criando as tabelas com Prisma
+
+As tabelas são criadas pelas migrations versionadas em `prisma/migrations/`.
+Com o banco criado e o `.env` configurado, aplique-as:
+
+```bash
+npm run db:migrate        # prisma migrate deploy — aplica migrations pendentes
+```
+
+Esse comando **não** cria uma migration nova; ele apenas executa as que já estão
+no repositório. É o comando usado no setup local, no CI e no container (o
+`docker/entrypoint.sh` roda `prisma migrate deploy` no start).
+
+### Comandos úteis
+
+| Comando                                      | Quando usar                                                                 |
+| -------------------------------------------- | --------------------------------------------------------------------------- |
+| `npm run db:migrate`                         | Aplicar migrations existentes (setup, CI, produção).                        |
+| `npm run db:migrate:dev`                     | Desenvolvimento: cria/aplica migrations e regenera o client.                |
+| `npx prisma migrate dev --name nome_da_mudanca` | Após alterar `prisma/schema.prisma`, para versionar a mudança.           |
+| `npx prisma migrate status`                  | Conferir se o banco está em dia com as migrations.                          |
+| `npx prisma migrate reset`                   | **Apaga** e recria o banco de desenvolvimento, reaplicando as migrations.   |
+| `npx prisma db push`                         | Prototipagem: sincroniza o schema sem gerar migration (não versionado).     |
+| `npm run db:studio`                          | Abrir o Prisma Studio para inspecionar os dados.                            |
+| `npx prisma generate`                        | Regenerar o Prisma Client (também roda no `postinstall`/`prebuild`).        |
+
+Fluxo para uma alteração de schema:
+
+```bash
+# 1. edite prisma/schema.prisma
+npx prisma migrate dev --name descricao_da_mudanca
+# 2. commite a pasta prisma/migrations gerada
+# 3. em outros ambientes:
+npm run db:migrate
+```
+
+> `prisma migrate dev` cria um banco _shadow_ temporário e exige permissão de
+> `CREATE DATABASE`. Em ambientes compartilhados/produção use sempre
+> `prisma migrate deploy`.
+
+### Primeira execução local
+
+```bash
+npm install          # instala dependências + prisma generate
+cp .env.example .env # configure DATABASE_URL/TEST_DATABASE_URL
+npm run db:migrate   # cria as tabelas no MySQL
+npm run start:dev
+```
+
 ## Como executar
 
 ### Com Docker Compose
