@@ -1,0 +1,873 @@
+{
+  "info": {
+    "_postman_id": "34a6bfab-2376-4d78-85d5-2772cb07027c",
+    "name": "MobileMed",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "16858144"
+  },
+  "item": [
+    {
+      "name": "Criar Pedidos",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigoPedido\": 616,\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"dataNascimento\": \"19970601\",\n  \"sexo\": \"M\",\n  \"codUnidade\": 104,\n  \"exames\": [\n    {\n      \"codigoItemPedido\": 930,\n      \"accessionNumber\": \"930\",\n      \"modalidade\": \"CR\",\n      \"nomeProcedimento\": \"RX ANTEBRACO ESQUERDO\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/pedidos",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "pedidos"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Success response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoPedido\": 616,\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"dataNascimento\": \"19970601\",\n  \"sexo\": \"M\",\n  \"codUnidade\": 104,\n  \"exames\": [\n    {\n      \"codigoItemPedido\": 930,\n      \"accessionNumber\": \"930\",\n      \"modalidade\": \"CR\",\n      \"nomeProcedimento\": \"RX ANTEBRACO ESQUERDO\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/pedidos",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "pedidos"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "ee13fbfc-5b9c-4303-a28c-cde888fa6065"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "377"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"179-Un8wv9ED8gjRuUOGPC5QEggU0qY\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 17:51:41 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"codigoPedido\": 616,\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"dataNascimento\": \"19970601\",\n  \"sexo\": \"M\",\n  \"codUnidade\": 104,\n  \"integrado\": false,\n  \"criadoEm\": \"2026-11-12T17:51:14.837Z\",\n  \"atualizadoEm\": \"2026-11-12T17:51:41.950Z\",\n  \"exames\": [\n    {\n      \"codigoItemPedido\": 930,\n      \"accessionNumber\": \"930\",\n      \"modalidade\": \"CR\",\n      \"nomeProcedimento\": \"RX ANTEBRACO ESQUERDO\",\n      \"exameRecebido\": false\n    }\n  ],\n  \"documentos\": []\n}"
+        },
+        {
+          "name": "Error response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"dataNascimento\": \"19970601\",\n  \"sexo\": \"M\",\n  \"codUnidade\": 104,\n  \"exames\": [\n    {\n      \"codigoItemPedido\": 930,\n      \"accessionNumber\": \"930\",\n      \"modalidade\": \"CR\",\n      \"nomeProcedimento\": \"RX ANTEBRACO ESQUERDO\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/pedidos",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "pedidos"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "9a49155c-5bcf-4666-a513-b668ec274a65"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "351"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"15f-9ftj/YfjRotsu35ZCjRD8mqVMuA\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:27:32 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"statusCode\": 400,\n  \"code\": \"VALIDACAO_INVALIDA\",\n  \"message\": \"codigoPedido must not be less than 1; codigoPedido must be an integer number\",\n  \"details\": [\n    \"codigoPedido must not be less than 1\",\n    \"codigoPedido must be an integer number\"\n  ],\n  \"path\": \"/pedidos\",\n  \"method\": \"POST\",\n  \"requestId\": \"9a49155c-5bcf-4666-a513-b668ec274a65\",\n  \"timestamp\": \"2026-11-12T18:27:32.426Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Buscar pedidos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}pedidos/616",
+          "host": [
+            "{{BASE_URL}}pedidos"
+          ],
+          "path": [
+            "616"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Success response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/pedidos/616",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "pedidos",
+                "616"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "f45d5d1b-0de5-4a80-a6d8-ceeac8b2b8af"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "377"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"179-Un8wv9ED8gjRuUOGPC5QEggU0qY\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:19:20 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"codigoPedido\": 616,\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"dataNascimento\": \"19970601\",\n  \"sexo\": \"M\",\n  \"codUnidade\": 104,\n  \"integrado\": false,\n  \"criadoEm\": \"2026-11-12T17:51:14.837Z\",\n  \"atualizadoEm\": \"2026-11-12T17:51:41.950Z\",\n  \"exames\": [\n    {\n      \"codigoItemPedido\": 930,\n      \"accessionNumber\": \"930\",\n      \"modalidade\": \"CR\",\n      \"nomeProcedimento\": \"RX ANTEBRACO ESQUERDO\",\n      \"exameRecebido\": false\n    }\n  ],\n  \"documentos\": []\n}"
+        },
+        {
+          "name": "Error response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/pedidos/6164",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "pedidos",
+                "6164"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "f4ef4afe-b304-40b0-b451-711acc9780b8"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "250"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"fa-Kwt6E4cRvxeFSoOgKRem6NeVXWc\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:26:59 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"statusCode\": 404,\n  \"code\": \"PEDIDO_NAO_ENCONTRADO\",\n  \"message\": \"Pedido 6164 não encontrado.\",\n  \"details\": {\n    \"codigoPedido\": 6164\n  },\n  \"path\": \"/pedidos/6164\",\n  \"method\": \"GET\",\n  \"requestId\": \"f4ef4afe-b304-40b0-b451-711acc9780b8\",\n  \"timestamp\": \"2026-11-12T18:26:59.635Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Documentos",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"codigoDocumento\": 251,\n  \"codigoPedido\": 616,\n  \"nomeDocumento\": \"PEDIDO\",\n  \"documento\": \"YmFzZTY0\"\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/documentos",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "documentos"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Success response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoDocumento\": 251,\n  \"codigoPedido\": 616,\n  \"nomeDocumento\": \"PEDIDO\",\n  \"documento\": \"YmFzZTY0\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/documentos",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "documentos"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "42a3f892-7a4f-4ff3-bb28-641bb9f82d7b"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "200"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"c8-06zKdFho8+BlBl1HB/xI3guWPtQ\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:20:55 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"codigoDocumento\": 251,\n  \"codigoPedido\": 616,\n  \"nomeDocumento\": \"PEDIDO\",\n  \"documento\": \"YmFzZTY0\",\n  \"integrado\": false,\n  \"criadoEm\": \"2026-11-12T18:20:55.190Z\",\n  \"atualizadoEm\": \"2026-11-12T18:20:55.190Z\",\n  \"exames\": []\n}"
+        },
+        {
+          "name": "Error response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoPedido\": 616,\n  \"nomeDocumento\": \"PEDIDO\",\n  \"documento\": \"YmFzZTY0\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/documentos",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "documentos"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "e09d2a6a-8cbf-4024-add4-a582cb8ccafc"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "366"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"16e-AlKJEFlG6pywOHV1hlf6wcRlz/s\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:26:39 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"statusCode\": 400,\n  \"code\": \"VALIDACAO_INVALIDA\",\n  \"message\": \"codigoDocumento must not be less than 1; codigoDocumento must be an integer number\",\n  \"details\": [\n    \"codigoDocumento must not be less than 1\",\n    \"codigoDocumento must be an integer number\"\n  ],\n  \"path\": \"/documentos\",\n  \"method\": \"POST\",\n  \"requestId\": \"e09d2a6a-8cbf-4024-add4-a582cb8ccafc\",\n  \"timestamp\": \"2026-11-12T18:26:39.489Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Documentos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/documentos/616",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "documentos",
+            "616"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Success response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/documentos/616",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "documentos",
+                "616"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "dbeb7332-9f3b-4bc2-a72b-72fca7704ff6"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "202"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"ca-XeNtxYRpAQMeWO6/Fa18mVr/A+I\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:21:38 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n  {\n    \"codigoDocumento\": 251,\n    \"codigoPedido\": 616,\n    \"nomeDocumento\": \"PEDIDO\",\n    \"documento\": \"YmFzZTY0\",\n    \"integrado\": false,\n    \"criadoEm\": \"2026-11-12T18:20:55.190Z\",\n    \"atualizadoEm\": \"2026-11-12T18:20:55.190Z\",\n    \"exames\": []\n  }\n]"
+        },
+        {
+          "name": "Error response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/documentos/6164",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "documentos",
+                "6164"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "b8048d4c-6a37-466e-a19e-43ca1fff6bf4"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "253"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"fd-esNQPrw5mr0MxbBWtiTpbQXYSDA\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:25:50 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"statusCode\": 404,\n  \"code\": \"PEDIDO_NAO_ENCONTRADO\",\n  \"message\": \"Pedido 6164 não encontrado.\",\n  \"details\": {\n    \"codigoPedido\": 6164\n  },\n  \"path\": \"/documentos/6164\",\n  \"method\": \"GET\",\n  \"requestId\": \"b8048d4c-6a37-466e-a19e-43ca1fff6bf4\",\n  \"timestamp\": \"2026-11-12T18:25:50.204Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Exames",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"accessionNumber\": \"930\",\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"modalidade\": \"CR\",\n  \"status\": \"NOVO\"\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{BASE_URL}}/exames",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "exames"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Success response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accessionNumber\": \"930\",\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"modalidade\": \"CR\",\n  \"status\": \"NOVO\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/exames",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "exames"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "9cd98f7b-f425-41dc-9e11-73a625392d89"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "333"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"14d-u7VRnMAxEkRUnAJC4B5vog/zd2w\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:22:40 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"accessionNumber\": \"930\",\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"modalidade\": \"CR\",\n  \"status\": \"NOVO\",\n  \"criadoEm\": \"2026-11-12T18:22:40.671Z\",\n  \"atualizadoEm\": \"2026-11-12T18:22:40.671Z\",\n  \"pedidos\": [\n    {\n      \"codigoPedido\": 616,\n      \"integrado\": true\n    }\n  ],\n  \"documentos\": [\n    {\n      \"codigoDocumento\": 251,\n      \"codigoPedido\": 616,\n      \"nomeDocumento\": \"PEDIDO\",\n      \"integrado\": true\n    }\n  ]\n}"
+        },
+        {
+          "name": "Error response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"modalidade\": \"CR\",\n  \"status\": \"NOVO\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/exames",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "exames"
+              ]
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "8bad5ea9-ab3f-479f-bcdd-4fc4c4916677"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "465"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"1d1-83YwrOGNZNF6n+BucCJITkVVHrU\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:25:12 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"statusCode\": 400,\n  \"code\": \"VALIDACAO_INVALIDA\",\n  \"message\": \"accessionNumber must be shorter than or equal to 64 characters; accessionNumber should not be empty; accessionNumber must be a string\",\n  \"details\": [\n    \"accessionNumber must be shorter than or equal to 64 characters\",\n    \"accessionNumber should not be empty\",\n    \"accessionNumber must be a string\"\n  ],\n  \"path\": \"/exames\",\n  \"method\": \"POST\",\n  \"requestId\": \"8bad5ea9-ab3f-479f-bcdd-4fc4c4916677\",\n  \"timestamp\": \"2026-11-12T18:25:12.880Z\"\n}"
+        }
+      ]
+    },
+    {
+      "name": "Exames",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{BASE_URL}}/exames/930",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "exames",
+            "930"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Error response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/exames/9303",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "exames",
+                "9303"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "2d3224bc-0d8e-4999-99f8-731ca8e2f4ff"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "252"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"fc-DR7AANvKeTq+7QGUBznSMOGR0i0\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:23:52 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"statusCode\": 404,\n  \"code\": \"EXAME_NAO_ENCONTRADO\",\n  \"message\": \"Exame 9303 não encontrado.\",\n  \"details\": {\n    \"accessionNumber\": \"9303\"\n  },\n  \"path\": \"/exames/9303\",\n  \"method\": \"GET\",\n  \"requestId\": \"2d3224bc-0d8e-4999-99f8-731ca8e2f4ff\",\n  \"timestamp\": \"2026-11-12T18:23:52.216Z\"\n}"
+        },
+        {
+          "name": "Success response",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/exames/930",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "exames",
+                "930"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "X-Powered-By",
+              "value": "Express"
+            },
+            {
+              "key": "x-request-id",
+              "value": "e9f0b7ff-06a4-4186-9d63-95a7829f85b0"
+            },
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            },
+            {
+              "key": "Content-Length",
+              "value": "333"
+            },
+            {
+              "key": "ETag",
+              "value": "W/\"14d-u7VRnMAxEkRUnAJC4B5vog/zd2w\""
+            },
+            {
+              "key": "Date",
+              "value": "Thu, 12 Nov 2026 18:24:16 GMT"
+            },
+            {
+              "key": "Connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "Keep-Alive",
+              "value": "timeout=5"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"accessionNumber\": \"930\",\n  \"nomePaciente\": \"ALEFHER MONTONI DE ALMEIDA\",\n  \"modalidade\": \"CR\",\n  \"status\": \"NOVO\",\n  \"criadoEm\": \"2026-11-12T18:22:40.671Z\",\n  \"atualizadoEm\": \"2026-11-12T18:22:40.671Z\",\n  \"pedidos\": [\n    {\n      \"codigoPedido\": 616,\n      \"integrado\": true\n    }\n  ],\n  \"documentos\": [\n    {\n      \"codigoDocumento\": 251,\n      \"codigoPedido\": 616,\n      \"nomeDocumento\": \"PEDIDO\",\n      \"integrado\": true\n    }\n  ]\n}"
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": ""
+    }
+  ]
+}

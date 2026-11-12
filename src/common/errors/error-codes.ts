@@ -1,0 +1,9 @@
+export const ErrorCode = {
+  VALIDACAO_INVALIDA: 'VALIDACAO_INVALIDA',
+  PEDIDO_NAO_ENCONTRADO: 'PEDIDO_NAO_ENCONTRADO',
+  DOCUMENTO_DUPLICADO: 'DOCUMENTO_DUPLICADO',
+  EXAME_NAO_ENCONTRADO: 'EXAME_NAO_ENCONTRADO',
+  ERRO_INTERNO: 'ERRO_INTERNO',
+} as const;
+
+export type ErrorCodeValue = (typeof ErrorCode)[keyof typeof ErrorCode];

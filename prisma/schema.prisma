@@ -1,0 +1,91 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// Pedido de exame recebido de um sistema hospitalar.
+model Pedido {
+  id             Int      @id @default(autoincrement())
+  codigoPedido   Int      @unique
+  nomePaciente   String
+  dataNascimento String
+  sexo           String
+  codUnidade     Int
+  integrado      Boolean  @default(false)
+  criadoEm       DateTime @default(now())
+  atualizadoEm   DateTime @updatedAt
+
+  itens      ItemPedido[]
+  documentos Documento[]
+
+  @@map("pedidos")
+}
+
+// Item (exame solicitado) que compõe um pedido. O accession number é a
+// chave usada para correlacionar o pedido com a chegada do exame.
+model ItemPedido {
+  id               Int    @id @default(autoincrement())
+  pedidoId         Int
+  codigoItemPedido Int
+  accessionNumber  String
+  modalidade       String
+  nomeProcedimento String
+
+  pedido Pedido @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+
+  @@unique([pedidoId, codigoItemPedido])
+  @@index([accessionNumber])
+  @@map("itens_pedido")
+}
+
+// Documento anexado a um pedido (ex.: pedido médico em base64).
+model Documento {
+  id              Int      @id @default(autoincrement())
+  codigoDocumento Int
+  codigoPedido    Int
+  nomeDocumento   String
+  conteudoBase64  String   @db.LongText
+  integrado       Boolean  @default(false)
+  criadoEm        DateTime @default(now())
+  atualizadoEm    DateTime @updatedAt
+
+  pedido Pedido           @relation(fields: [codigoPedido], references: [codigoPedido], onDelete: Cascade)
+  exames DocumentoExame[]
+
+  @@unique([codigoDocumento, codigoPedido])
+  @@index([codigoPedido])
+  @@map("documentos")
+}
+
+// Exame que chegou do sistema de imagens (DICOM simplificado).
+model Exame {
+  id              Int      @id @default(autoincrement())
+  accessionNumber String   @unique
+  nomePaciente    String
+  modalidade      String
+  status          String   @default("NOVO")
+  criadoEm        DateTime @default(now())
+  atualizadoEm    DateTime @updatedAt
+
+  documentos DocumentoExame[]
+
+  @@map("exames")
+}
+
+// Vínculo N:N entre documento e exame, criado quando o exame chega.
+model DocumentoExame {
+  documentoId Int
+  exameId     Int
+  vinculadoEm DateTime @default(now())
+
+  documento Documento @relation(fields: [documentoId], references: [id], onDelete: Cascade)
+  exame     Exame     @relation(fields: [exameId], references: [id], onDelete: Cascade)
+
+  @@id([documentoId, exameId])
+  @@map("documentos_exames")
+}
