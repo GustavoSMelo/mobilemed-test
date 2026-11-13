@@ -112,11 +112,11 @@ O que acontece:
 2. A API espera o healthcheck do MySQL passar (`depends_on: condition: service_healthy`).
 3. O `docker/entrypoint.sh` roda `prisma migrate deploy` (com retry) e sobe a API.
 
-A API sobe em `http://localhost:3333`:
+A API sobe em `http://localhost:3000`:
 
-- Swagger UI: `http://localhost:3333/docs`
-- OpenAPI JSON: `http://localhost:3333/docs/json`
-- Health check: `http://localhost:3333/health`
+- Swagger UI: `http://localhost:3000/docs`
+- OpenAPI JSON: `http://localhost:3000/docs/json`
+- Health check: `http://localhost:3000/health`
 
 O MySQL fica publicado em `localhost:3307` (e não em `3306`) para não conflitar
 com um MySQL/MariaDB já instalado na máquina. Para usar o banco do container a
@@ -165,6 +165,25 @@ npm test             # testes unitários (Vitest)
 npm run test:e2e     # testes de integração HTTP (Vitest + Supertest)
 ```
 
+O `test:e2e` **não precisa de export manual de variáveis**: o
+`vitest.config.e2e.ts` carrega `.env.test` (e `.env`) automaticamente, sem
+sobrescrever valores já definidos no shell. O `.env.test` do repositório já vem
+apontando para o MySQL do Compose (`127.0.0.1:3307`), então o fluxo é apenas:
+
+```bash
+docker compose up -d    # sobe MySQL + API
+npm run test:e2e        # usa o banco pedidos_integracao_test do container
+```
+
+Para desenvolvimento contra o banco do Compose, copie o mesmo arquivo:
+
+```bash
+cp .env.test .env
+```
+
+Se você usa o MySQL instalado na máquina, edite `.env.test` trocando a porta
+`3307` por `3306`.
+
 Os testes de integração usam `TEST_DATABASE_URL` (ou derivam `DATABASE_URL`
 trocando o nome do banco para `*_test`). O helper executa
 `prisma db push --force-reset`, portanto **o banco de teste é apagado e
@@ -183,7 +202,7 @@ mesmo banco com segurança.
 | --------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------ |
 | `DATABASE_URL`        | `mysql://pedidos_app:senha@127.0.0.1:3306/pedidos_integracao`      | Conexão MySQL usada pela API (fora do Compose).              |
 | `TEST_DATABASE_URL`   | `mysql://pedidos_app:senha@127.0.0.1:3306/pedidos_integracao_test` | Banco dos testes (precisa terminar `_test`).                 |
-| `PORT`                | `3333`                                                             | Porta HTTP.                                                  |
+| `PORT`                | `3000`                                                             | Porta HTTP.                                                  |
 | `NODE_ENV`            | —                                                                  | `production` no container.                                   |
 | `MYSQL_ROOT_PASSWORD` | `root`                                                             | Senha de root do MySQL do Compose.                           |
 | `MYSQL_DATABASE`      | `pedidos_integracao`                                               | Banco criado pelo serviço `db`.                              |
@@ -281,7 +300,7 @@ Documento (único por codigoDocumento + codigoPedido)
 ### `POST /pedidos`
 
 ```bash
-curl -X POST http://localhost:3333/pedidos \
+curl -X POST http://localhost:3000/pedidos \
   -H 'content-type: application/json' \
   -d '{
     "codigoPedido": 616,
@@ -328,7 +347,7 @@ Resposta (pedido ainda sem exame):
 ### `POST /documentos`
 
 ```bash
-curl -X POST http://localhost:3333/documentos \
+curl -X POST http://localhost:3000/documentos \
   -H 'content-type: application/json' \
   -d '{
     "codigoDocumento": 251,
@@ -341,7 +360,7 @@ curl -X POST http://localhost:3333/documentos \
 ### `POST /exames`
 
 ```bash
-curl -X POST http://localhost:3333/exames \
+curl -X POST http://localhost:3000/exames \
   -H 'content-type: application/json' \
   -d '{
     "accessionNumber": "930",
@@ -376,9 +395,9 @@ Resposta:
 ### Consultas
 
 ```bash
-curl http://localhost:3333/pedidos/616
-curl http://localhost:3333/documentos/616
-curl http://localhost:3333/exames/930
+curl http://localhost:3000/pedidos/616
+curl http://localhost:3000/documentos/616
+curl http://localhost:3000/exames/930
 ```
 
 Formato de erro:
