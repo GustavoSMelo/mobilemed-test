@@ -1,12 +1,49 @@
 services:
+  db:
+    image: mysql:8.4
+    # Porta 3307 por padrão para não conflitar com um MySQL/MariaDB local em 3306.
+    ports:
+      - '${MYSQL_PORT:-3307}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-pedidos_integracao}
+      MYSQL_USER: ${MYSQL_USER:-pedidos_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-senha}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mysqladmin',
+          'ping',
+          '-h',
+          '127.0.0.1',
+          '-u',
+          'root',
+          '-p$$MYSQL_ROOT_PASSWORD',
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    restart: unless-stopped
+
   api:
     build: .
-    # A API roda na rede do host para alcançar o MySQL instalado na máquina.
-    network_mode: host
     environment:
       NODE_ENV: production
       PORT: 3333
-      DATABASE_URL: ${DATABASE_URL:?Defina DATABASE_URL no arquivo .env}
+      # Host = nome do serviço na rede do compose.
+      DATABASE_URL: mysql://${MYSQL_USER:-pedidos_app}:${MYSQL_PASSWORD:-senha}@db:3306/${MYSQL_DATABASE:-pedidos_integracao}
+    ports:
+      - '${PORT:-3333}:3333'
+    depends_on:
+      db:
+        condition: service_healthy
     healthcheck:
       test:
         [
@@ -20,3 +57,6 @@ services:
       retries: 5
       start_period: 15s
     restart: unless-stopped
+
+volumes:
+  mysql-data:

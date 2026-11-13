@@ -19,9 +19,13 @@ PACS.
 
 ## Banco de dados
 
-A API usa o **MySQL/MariaDB instalado na máquina** (por padrão em
-`127.0.0.1:3306`). Crie os bancos de desenvolvimento e de teste e um usuário com
-permissão sobre eles:
+Dois modos suportados:
+
+- **Docker Compose** (recomendado): o MySQL 8.4 sobe junto com a API, já com
+  banco e usuário criados — veja [Com Docker Compose](#com-docker-compose).
+- **MySQL/MariaDB já instalado na máquina** (por padrão em `127.0.0.1:3306`).
+  Nesse caso crie os bancos de desenvolvimento e de teste e um usuário com
+  permissão sobre eles:
 
 ```sql
 CREATE DATABASE pedidos_integracao CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -94,23 +98,47 @@ npm run start:dev
 
 ### Com Docker Compose
 
-Pré-requisitos: Docker e o MySQL local rodando. O container usa
-`network_mode: host` para alcançar `127.0.0.1:3306`, e o `DATABASE_URL` vem do
-`.env`:
+Pré-requisito: apenas Docker. O `docker-compose.yml` sobe **a API e o MySQL
+juntos** — não é necessário ter um MySQL instalado na máquina:
 
 ```bash
-docker compose up --build
+docker compose up --build     # ou: cp .env.example .env && docker compose up --build
 ```
 
-A API sobe em `http://localhost:3333` e aplica as migrations automaticamente.
+O que acontece:
+
+1. `db` (imagem `mysql:8.4`) cria o banco `pedidos_integracao` e o usuário
+   `pedidos_app` automaticamente, com os dados em um volume nomeado (`mysql-data`).
+2. A API espera o healthcheck do MySQL passar (`depends_on: condition: service_healthy`).
+3. O `docker/entrypoint.sh` roda `prisma migrate deploy` (com retry) e sobe a API.
+
+A API sobe em `http://localhost:3333`:
 
 - Swagger UI: `http://localhost:3333/docs`
 - OpenAPI JSON: `http://localhost:3333/docs/json`
 - Health check: `http://localhost:3333/health`
 
-> Em Linux o host networking faz o container enxergar o MySQL em `127.0.0.1`.
-> Em Docker Desktop (macOS/Windows) seria necessário usar `host.docker.internal`
-> e um usuário MySQL liberado para o host do container.
+O MySQL fica publicado em `localhost:3307` (e não em `3306`) para não conflitar
+com um MySQL/MariaDB já instalado na máquina. Para usar o banco do container a
+partir do host, por exemplo com Prisma Studio ou os testes de integração:
+
+```bash
+MYSQL_URL="mysql://pedidos_app:senha@127.0.0.1:3307/pedidos_integracao"
+npx prisma studio --url "$MYSQL_URL"
+```
+
+Personalize credenciais e portas pelo `.env` (variáveis `MYSQL_*` e `MYSQL_PORT`,
+veja [Variáveis de ambiente](#variáveis-de-ambiente)). A API monta o `DATABASE_URL`
+do container sozinha, apontando para o host `db`.
+
+Comandos úteis:
+
+```bash
+docker compose logs -f api      # acompanhar a API
+docker compose exec db mysql -upedidos_app -psenha pedidos_integracao
+docker compose down             # parar (mantém os dados)
+docker compose down -v          # parar e apagar o volume do MySQL
+```
 
 ### Localmente
 
@@ -151,12 +179,21 @@ mesmo banco com segurança.
 
 ## Variáveis de ambiente
 
-| Variável            | Exemplo                                                          | Descrição                                 |
-| ------------------- | ---------------------------------------------------------------- | ----------------------------------------- |
-| `DATABASE_URL`      | `mysql://pedidos_app:senha@127.0.0.1:3306/pedidos_integracao`    | Conexão MySQL usada pela API.             |
-| `TEST_DATABASE_URL` | `mysql://pedidos_app:senha@127.0.0.1:3306/pedidos_integracao_test` | Banco dos testes (precisa terminar `_test`). |
-| `PORT`              | `3333`                                                           | Porta HTTP.                               |
-| `NODE_ENV`          | —                                                                | `production` no container.                |
+| Variável              | Exemplo                                                            | Descrição                                                    |
+| --------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------ |
+| `DATABASE_URL`        | `mysql://pedidos_app:senha@127.0.0.1:3306/pedidos_integracao`      | Conexão MySQL usada pela API (fora do Compose).              |
+| `TEST_DATABASE_URL`   | `mysql://pedidos_app:senha@127.0.0.1:3306/pedidos_integracao_test` | Banco dos testes (precisa terminar `_test`).                 |
+| `PORT`                | `3333`                                                             | Porta HTTP.                                                  |
+| `NODE_ENV`            | —                                                                  | `production` no container.                                   |
+| `MYSQL_ROOT_PASSWORD` | `root`                                                             | Senha de root do MySQL do Compose.                           |
+| `MYSQL_DATABASE`      | `pedidos_integracao`                                               | Banco criado pelo serviço `db`.                              |
+| `MYSQL_USER`          | `pedidos_app`                                                      | Usuário da aplicação criado pelo serviço `db`.               |
+| `MYSQL_PASSWORD`      | `senha`                                                            | Senha desse usuário.                                         |
+| `MYSQL_PORT`          | `3307`                                                             | Porta do MySQL publicada no host (3307 evita conflito local). |
+
+> No Compose o `DATABASE_URL` da API é derivado de `MYSQL_USER`,
+> `MYSQL_PASSWORD` e `MYSQL_DATABASE`, sempre apontando para o host `db:3306`.
+> O `DATABASE_URL` do `.env` é usado apenas fora do Compose.
 
 ## Modelo de dados
 
@@ -386,11 +423,12 @@ formato de resposta do modelo do Prisma.
 
 ## Decisões técnicas
 
-- **MySQL/MariaDB local**: atende ao banco já instalado na máquina e mantém o
-  modelo relacional próximo de um cenário de produção. `conteudoBase64` usa
-  `LONGTEXT` para não limitar o tamanho do documento. O `docker compose` usa
-  `network_mode: host` para acessar o MySQL em `127.0.0.1`; em produção o ideal
-  é um serviço de banco dedicado com rede própria e usuário restrito ao schema.
+- **MySQL/MariaDB + Prisma**: mantém o modelo relacional próximo de um cenário de
+  produção. `conteudoBase64` usa `LONGTEXT` para não limitar o tamanho do
+  documento. O `docker compose` sobe um MySQL 8.4 dedicado (`mysql:8.4`) com
+  volume nomeado, rede própria do Compose e usuário restrito ao schema; a API
+  alcança o banco por `db:3306` e só inicia depois do healthcheck do MySQL. Um
+  MySQL/MariaDB já instalado na máquina continua suportado via `DATABASE_URL`.
 - **Reconciliação centralizada e idempotente**: os três eventos (pedido,
   documento, exame) convergem para o mesmo cálculo de estado. Isso evita regras
   divergentes e faz reenvios não gerarem duplicidade.
