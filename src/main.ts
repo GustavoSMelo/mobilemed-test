@@ -32,8 +32,8 @@ async function bootstrap(): Promise<void> {
     customSiteTitle: 'Integração de Pedidos e Documentos - API',
   });
 
-  const port = Number(process.env.PORT ?? 3333);
-  await app.listen(port);
+  const port = Number(process.env.PORT ?? 3000);
+  await app.listen(port, '0.0.0.0');
 
   logger.log({
     event: 'application.started',
